@@ -1,35 +1,54 @@
-name: Pages
+name: Deploy Hexo site to Pages
 
 on:
   push:
-    branches:
-      - source  # 监听 source 分支的推送
+    branches: [source]  # 监听 source 分支的推送
+  workflow_dispatch:    # 允许手动触发部署
+
+# 设置 GITHUB_TOKEN 的权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 允许一个并发部署
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  pages:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 18.x
+        with:
+          submodules: recursive  # 获取子模块（如果有的话）
+      
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-npm-cache
-          restore-keys: |
-            ${{ runner.OS }}-npm-cache
+          node-version: '18'
+          cache: 'npm'
+      
       - name: Install Dependencies
         run: npm install
+      
       - name: Build
         run: npm run build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          publish_branch: main  # 部署到 main 分支
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
