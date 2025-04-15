@@ -109,7 +109,7 @@ encrypt:
   
   # 为特定路径加密
   paths:
-    - path: _posts/日记/2025/
+    - path: 日记/2025/
       password: 747937
     # 或者尝试这种格式
     # - path: 日记
