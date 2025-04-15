@@ -109,10 +109,11 @@ encrypt:
   
   # 为特定路径加密
   paths:
-    - path: 日记/2025/
+    - path: _posts/日记/2025/
       password: 747937
-    # - path: tags/隐私/
-    #   password: another_password
+    # 或者尝试这种格式
+    # - path: 日记
+    #   password: 747937
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

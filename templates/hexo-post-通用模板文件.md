@@ -13,10 +13,10 @@ tags:
 cover: 
 thumbnail: 
 # 如果需要密码保护，取消下面的注释并设置密码
-# password: 747937 # 文章密码
-# message: 请输入密码访问     # 密码提示信息
-# abstract: 这篇文章受到了保护。 # 密码提示时显示的文章摘要
-# wrong_pass_message: 密码错误，请重试。
+password: 747937 # 文章密码
+message: 请输入密码访问     # 密码提示信息
+abstract: 这篇文章受到了保护。 # 密码提示时显示的文章摘要
+wrong_pass_message: 密码错误，请重试。
 ---
 
 <!-- 在此处添加文章摘要 -->
