@@ -31,7 +31,9 @@ jobs:
           cache: 'npm'
       
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install hexo-blog-encrypt --save  # 添加这一行来安装加密插件
       
       - name: Build
         run: npm run build

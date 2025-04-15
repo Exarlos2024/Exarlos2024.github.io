@@ -100,6 +100,20 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: next
 
+# Security Plugin Config
+encrypt:
+  enable: true
+  default_template: '这篇文章已加密，请输入密码访问。'
+  default_wrong_pass_message: '密码错误，请重试。'
+  default_abstract: '这是一篇加密的文章。'
+  
+  # 为特定路径加密
+  paths:
+    - path: 日记/2025/
+      password: 747937
+    # - path: tags/隐私/
+    #   password: another_password
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:

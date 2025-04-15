@@ -2,7 +2,7 @@
 title: {{ title }}
 date: {{ date }}
 updated: {{ date }}
-author: {{ author }}
+author: Exarlos 艾克萨罗斯
 email: 452361419@qq.com
 description: 
 keywords: 
