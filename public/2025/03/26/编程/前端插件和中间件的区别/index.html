@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"exarlos.site","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="世界上没有低级的法术,只有低级的法师!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端插件和中间件的区别">
+<meta property="og:url" content="https://exarlos.site/2025/03/26/%E7%BC%96%E7%A8%8B/%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%92%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="塔希里亚旅行记">
+<meta property="og:description" content="世界上没有低级的法术,只有低级的法师!">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-25T18:33:52.000Z">
+<meta property="article:modified_time" content="2025-03-27T17:36:19.714Z">
+<meta property="article:author" content="Exarlos">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://exarlos.site/2025/03/26/%E7%BC%96%E7%A8%8B/%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%92%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://exarlos.site/2025/03/26/%E7%BC%96%E7%A8%8B/%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%92%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/","path":"2025/03/26/编程/前端插件和中间件的区别/","title":"前端插件和中间件的区别"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>前端插件和中间件的区别 | 塔希里亚旅行记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">塔希里亚旅行记</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">艾克萨罗斯的日志</p>
+      <img class="custom-logo-image" src="/uploads/sibuleisi.jpg" alt="塔希里亚旅行记">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li><li class="menu-item menu-item-commonweal"><a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%92%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB-%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">前端插件和中间件的区别 #编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%88Middleware%EF%BC%89%E4%B8%8E%E6%8F%92%E4%BB%B6%EF%BC%88Plugins%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.1.</span> <span class="nav-text">中间件（Middleware）与插件（Plugins）的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%B7%AE%E5%BC%82"><span class="nav-number">1.0.2.</span> <span class="nav-text">主要差异</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%92%8C%E6%8F%92%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E7%94%A8%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">中间件和插件的区别与用法解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%88Middleware%EF%BC%89%E5%92%8C%E6%8F%92%E4%BB%B6%EF%BC%88Plugins%EF%BC%89%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8C%BA%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text">中间件（Middleware）和插件（Plugins）的基本区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%EF%BC%88Plugins%EF%BC%89%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.2.</span> <span class="nav-text">插件（Plugins）详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%82%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E6%8F%92%E4%BB%B6%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="nav-number">2.2.1.</span> <span class="nav-text">您代码中的插件示例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94%EF%BC%9A"><span class="nav-number">2.2.2.</span> <span class="nav-text">插件的常见用途：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%88Middleware%EF%BC%89%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.3.</span> <span class="nav-text">中间件（Middleware）详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%82%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="nav-number">2.3.1.</span> <span class="nav-text">您代码中的中间件示例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94%EF%BC%9A"><span class="nav-number">2.3.2.</span> <span class="nav-text">中间件的常见用途：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%92%8C%E6%8F%92%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">如何使用中间件和插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="nav-number">2.4.1.</span> <span class="nav-text">使用插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">2.4.2.</span> <span class="nav-text">使用中间件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E4%BE%8B%E5%AD%90"><span class="nav-number">2.5.</span> <span class="nav-text">实际例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%B7%BB%E5%8A%A0HTTP%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8%E7%BB%9F%E8%AE%A1"><span class="nav-number">2.5.1.</span> <span class="nav-text">插件示例：添加HTTP接口调用统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%A3%80%E6%9F%A5%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%AE%BF%E9%97%AE%E9%99%90%E5%88%B6"><span class="nav-number">2.5.2.</span> <span class="nav-text">中间件示例：检查工作时间访问限制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E5%92%8C%E5%8F%8D%E6%80%9D"><span class="nav-number">2.6.</span> <span class="nav-text">总结和反思</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Exarlos</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/exarlos2024" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;exarlos2024" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:452361419@qq.com" title="E-Mail → mailto:452361419@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://exarlos.site/2025/03/26/%E7%BC%96%E7%A8%8B/%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%92%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Exarlos">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="塔希里亚旅行记">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="前端插件和中间件的区别 | 塔希里亚旅行记">
+      <meta itemprop="description" content="世界上没有低级的法术,只有低级的法师!">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端插件和中间件的区别
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-03-26 02:33:52" itemprop="dateCreated datePublished" datetime="2025-03-26T02:33:52+08:00">2025-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-28 01:36:19" itemprop="dateModified" datetime="2025-03-28T01:36:19+08:00">2025-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">世界上没有低级的法术,只有低级的法师!</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><!-- Obsidian 元数据 (不会影响 Hexo 解析) -->
+<!-- 
+创建时间: 2025-03-26-周三 02:33 
+year: 2025
+month: 03
+week: 13
+day: 26
+-->
+
+<h1 id="前端插件和中间件的区别-编程"><a href="#前端插件和中间件的区别-编程" class="headerlink" title="前端插件和中间件的区别 #编程"></a>前端插件和中间件的区别 #编程</h1><think>
+好的，我将解释中间件（middleware）和插件（plugins）在 Nuxt.js 中的区别和用法，并提供一些示例。
+
+<h3 id="中间件（Middleware）与插件（Plugins）的区别"><a href="#中间件（Middleware）与插件（Plugins）的区别" class="headerlink" title="中间件（Middleware）与插件（Plugins）的区别"></a>中间件（Middleware）与插件（Plugins）的区别</h3><p><strong>中间件（Middleware）</strong>：</p>
+<ul>
+<li>在路由导航过程中执行的函数</li>
+<li>用于在页面渲染之前或路由切换过程中执行代码</li>
+<li>可以拦截路由导航、验证用户权限、重定向等</li>
+<li>执行时机是在路由跳转过程中</li>
+</ul>
+<p><strong>插件（Plugins）</strong>：</p>
+<ul>
+<li>在应用初始化时执行的代码</li>
+<li>用于注入功能、全局组件、第三方库等</li>
+<li>可以在整个应用生命周期中使用</li>
+<li>执行时机是在应用启动时，不依赖于路由变化</li>
+</ul>
+<h3 id="主要差异"><a href="#主要差异" class="headerlink" title="主要差异"></a>主要差异</h3><ol>
+<li><p><strong>执行时机</strong>：</p>
+<ul>
+<li>中间件：在路由导航过程中执行</li>
+<li>插件：在应用初始化时执行</li>
+</ul>
+</li>
+<li><p><strong>用途</strong>：</p>
+<ul>
+<li>中间件：处理路由相关逻辑，如权限验证、路由拦截</li>
+<li>插件：提供全局功能，注册全局组件，集成第三方库</li>
+</ul>
+</li>
+<li><p><strong>作用域</strong>：</p>
+<ul>
+<li>中间件：通常针对特定路由或者全局路由</li>
+<li>插件：全局作用域，影响整个应用</li>
+</ul>
+</li>
+</ol>
+<p>让我根据用户的代码示例来具体解释每个文件的用途和作用。<br></think></p>
+<h1 id="中间件和插件的区别与用法解析"><a href="#中间件和插件的区别与用法解析" class="headerlink" title="中间件和插件的区别与用法解析"></a>中间件和插件的区别与用法解析</h1><h2 id="中间件（Middleware）和插件（Plugins）的基本区别"><a href="#中间件（Middleware）和插件（Plugins）的基本区别" class="headerlink" title="中间件（Middleware）和插件（Plugins）的基本区别"></a>中间件（Middleware）和插件（Plugins）的基本区别</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>中间件</th>
+<th>插件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>执行时机</td>
+<td>路由导航过程中执行</td>
+<td>应用初始化时执行</td>
+</tr>
+<tr>
+<td>主要用途</td>
+<td>处理路由相关逻辑</td>
+<td>提供全局功能或服务</td>
+</tr>
+<tr>
+<td>生命周期</td>
+<td>每次路由变化时都可能执行</td>
+<td>应用启动时执行一次</td>
+</tr>
+<tr>
+<td>可访问内容</td>
+<td>路由信息、导航状态</td>
+<td>整个应用实例</td>
+</tr>
+</tbody></table>
+<h2 id="插件（Plugins）详解"><a href="#插件（Plugins）详解" class="headerlink" title="插件（Plugins）详解"></a>插件（Plugins）详解</h2><p>插件在应用<strong>启动时</strong>执行，用于设置全局功能或服务，它们会在应用创建之初就运行。</p>
+<h3 id="您代码中的插件示例："><a href="#您代码中的插件示例：" class="headerlink" title="您代码中的插件示例："></a>您代码中的插件示例：</h3><ol>
+<li><p><strong>auth.ts 插件</strong>:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtPlugin</span>(<span class="title function_">async</span> (nuxtApp) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 只在客户端初始化</span></span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">client</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> auth = <span class="title function_">useAuthStore</span>()</span><br><span class="line">    <span class="keyword">await</span> auth.<span class="title function_">checkAuth</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>此插件在应用启动时检查用户的认证状态。它只在客户端执行，并且只执行一次。</p>
+</li>
+<li><p><strong>toast.ts 插件</strong>:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtPlugin</span>(<span class="function">(<span class="params">nuxtApp</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> toast = nuxtApp.<span class="property">vueApp</span>.<span class="title function_">use</span>(<span class="title class_">Toast</span>, &#123;</span><br><span class="line">    <span class="attr">position</span>: <span class="variable constant_">POSITION</span>.<span class="property">TOP_RIGHT</span>,</span><br><span class="line">    <span class="attr">timeout</span>: <span class="number">3000</span>,</span><br><span class="line">    <span class="comment">// 其他配置...</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">provide</span>: &#123;</span><br><span class="line">      toast</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>此插件全局注册了一个toast通知系统，使其在整个应用中都可用。</p>
+</li>
+</ol>
+<h3 id="插件的常见用途："><a href="#插件的常见用途：" class="headerlink" title="插件的常见用途："></a>插件的常见用途：</h3><ol>
+<li>注册全局组件</li>
+<li>集成第三方库（如您的toast插件）</li>
+<li>注入全局服务&#x2F;API</li>
+<li>处理应用初始化逻辑（如身份验证）</li>
+</ol>
+<h2 id="中间件（Middleware）详解"><a href="#中间件（Middleware）详解" class="headerlink" title="中间件（Middleware）详解"></a>中间件（Middleware）详解</h2><p>中间件在<strong>每次路由导航</strong>过程中执行，用于处理路由相关的逻辑。</p>
+<h3 id="您代码中的中间件示例："><a href="#您代码中的中间件示例：" class="headerlink" title="您代码中的中间件示例："></a>您代码中的中间件示例：</h3><ol>
+<li><p><strong>auth.ts 中间件</strong>:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtRouteMiddleware</span>(<span class="title function_">async</span> (to) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> auth = <span class="title function_">useAuthStore</span>()</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 只在客户端检查认证状态</span></span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">client</span> &amp;&amp; !auth.<span class="property">isAuthenticated</span>) &#123;</span><br><span class="line">    <span class="keyword">await</span> auth.<span class="title function_">checkAuth</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 需要认证的路由</span></span><br><span class="line">  <span class="keyword">if</span> (to.<span class="property">meta</span>.<span class="property">requiresAuth</span> &amp;&amp; !auth.<span class="property">isAuthenticated</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">navigateTo</span>(<span class="string">&#x27;/auth/login&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 已登录用户不能访问登录/注册页</span></span><br><span class="line">  <span class="keyword">if</span> (auth.<span class="property">isAuthenticated</span> &amp;&amp; to.<span class="property">path</span>.<span class="title function_">startsWith</span>(<span class="string">&#x27;/auth/&#x27;</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">navigateTo</span>(<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个中间件在每次路由导航时检查认证状态，并根据路由要求和用户状态决定是否允许访问或重定向。</p>
+</li>
+<li><p><strong>errorHandler.ts 中间件</strong>:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtRouteMiddleware</span>(<span class="title function_">async</span> (<span class="attr">to</span>: <span class="built_in">any</span>, <span class="attr">from</span>: <span class="built_in">any</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> nuxtApp = <span class="title function_">useNuxtApp</span>()</span><br><span class="line"></span><br><span class="line">  nuxtApp.<span class="title function_">hook</span>(<span class="string">&#x27;vue:error&#x27;</span>, <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">handleError</span>(error)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  nuxtApp.<span class="title function_">hook</span>(<span class="string">&#x27;app:error&#x27;</span>, <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">handleError</span>(error)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 处理错误的函数</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleError</span> = (<span class="params"><span class="attr">error</span>: <span class="built_in">any</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="comment">// ...错误处理逻辑</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个中间件设置了全局错误处理器，捕获应用中的错误并显示相应的提示信息。</p>
+</li>
+</ol>
+<h3 id="中间件的常见用途："><a href="#中间件的常见用途：" class="headerlink" title="中间件的常见用途："></a>中间件的常见用途：</h3><ol>
+<li>路由权限验证（如您的auth中间件）</li>
+<li>路由拦截和重定向</li>
+<li>加载数据前的准备工作</li>
+<li>用户状态检查</li>
+</ol>
+<h2 id="如何使用中间件和插件"><a href="#如何使用中间件和插件" class="headerlink" title="如何使用中间件和插件"></a>如何使用中间件和插件</h2><h3 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h3><ol>
+<li><p><strong>创建插件</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// plugins/myPlugin.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtPlugin</span>(<span class="function">(<span class="params">nuxtApp</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 插件代码</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 可以向应用提供全局可用的值</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">provide</span>: &#123;</span><br><span class="line">      <span class="attr">myService</span>: &#123;</span><br><span class="line">        <span class="attr">doSomething</span>: <span class="function">() =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;做某事&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在组件中使用</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup&gt;</span><br><span class="line">// 访问插件提供的服务</span><br><span class="line">const &#123; $myService &#125; = useNuxtApp()</span><br><span class="line"></span><br><span class="line">// 使用服务</span><br><span class="line">$myService.doSomething()</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="使用中间件"><a href="#使用中间件" class="headerlink" title="使用中间件"></a>使用中间件</h3><ol>
+<li><p><strong>创建全局中间件</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// middleware/logger.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtRouteMiddleware</span>(<span class="function">(<span class="params">to, <span class="keyword">from</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`从 <span class="subst">$&#123;<span class="keyword">from</span>.path&#125;</span> 路由到 <span class="subst">$&#123;to.path&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>创建命名中间件</strong>（可按需使用）：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// middleware/requireAuth.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtRouteMiddleware</span>(<span class="function">(<span class="params">to</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> auth = <span class="title function_">useAuthStore</span>()</span><br><span class="line">  <span class="keyword">if</span> (!auth.<span class="property">isAuthenticated</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">navigateTo</span>(<span class="string">&#x27;/login&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在页面中使用</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup&gt;</span><br><span class="line">// 使用命名中间件</span><br><span class="line">definePageMeta(&#123;</span><br><span class="line">  middleware: [&#x27;requireAuth&#x27;]</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h2><h3 id="插件示例：添加HTTP接口调用统计"><a href="#插件示例：添加HTTP接口调用统计" class="headerlink" title="插件示例：添加HTTP接口调用统计"></a>插件示例：添加HTTP接口调用统计</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// plugins/apiStats.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtPlugin</span>(<span class="function">(<span class="params">nuxtApp</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> apiCalls = <span class="title function_">ref</span>(<span class="number">0</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 拦截所有API调用</span></span><br><span class="line">  nuxtApp.<span class="title function_">hook</span>(<span class="string">&#x27;app:fetch:request&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    apiCalls.<span class="property">value</span>++</span><br><span class="line">  &#125;)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">provide</span>: &#123;</span><br><span class="line">      <span class="attr">getApiStats</span>: <span class="function">() =&gt;</span> (&#123; <span class="attr">calls</span>: apiCalls.<span class="property">value</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="中间件示例：检查工作时间访问限制"><a href="#中间件示例：检查工作时间访问限制" class="headerlink" title="中间件示例：检查工作时间访问限制"></a>中间件示例：检查工作时间访问限制</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// middleware/workingHours.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineNuxtRouteMiddleware</span>(<span class="function">(<span class="params">to</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 仅在客户端检查</span></span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">client</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> hour = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getHours</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 假设系统只在8点到22点开放</span></span><br><span class="line">    <span class="keyword">if</span> (hour &lt; <span class="number">8</span> || hour &gt;= <span class="number">22</span>) &#123;</span><br><span class="line">      <span class="comment">// 非工作时间重定向到提示页面</span></span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">navigateTo</span>(<span class="string">&#x27;/system-closed&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>总结：理解中间件和插件的区别可以帮助您在正确的地方实现正确的功能，提高应用的可维护性和性能。</p>
+<h2 id="总结和反思"><a href="#总结和反思" class="headerlink" title="总结和反思"></a>总结和反思</h2><blockquote>
+<p>[!done] 每日总结：</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/03/25/%E6%97%A5%E8%AE%B0/2025/2025-03-25-%E5%91%A8%E4%BA%8C/" rel="prev" title="2025-03-25-周二">
+                  <i class="fa fa-angle-left"></i> 2025-03-25-周二
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/03/28/%E7%BC%96%E7%A8%8B/api%E8%AF%B7%E6%B1%82%E7%9A%84auth%E8%AE%A4%E8%AF%81%E6%98%AF%E5%9C%A8%E5%93%AA%E9%87%8C%E8%AE%BE%E7%BD%AE/" rel="next" title="api请求的auth认证是在哪里设置">
+                  api请求的auth认证是在哪里设置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Exarlos</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
