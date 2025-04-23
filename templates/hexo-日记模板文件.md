@@ -33,6 +33,7 @@ wrong_pass_message: 密码错误，请重试。
 
 - [ ] 
 
+<!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
 ```dataviewjs
 // Get current filename
 const currentFilename = dv.current().file.name;
@@ -138,7 +139,7 @@ if (yesterdayFile) {
         // 显示未完成的任务
         if (unfinishedTasks.length > 0) {
             // 添加标题和昨日日记的链接
-            dv.header(4, `昨日未完成事项 (来自 [[${yesterdayFile.path}|${yesterdayDateStr}]])`);
+            dv.header(4, `昨日未完成事项 (来自 [[${yesterdayFile.path}|${yesterdayDateStr}]]`);
 
             // 显示每个未完成的任务
             for(let task of unfinishedTasks) {
@@ -160,12 +161,18 @@ if (yesterdayFile) {
     dv.paragraph("- [ ] 在此处手动添加昨日未完成的任务");
 }
 ```
+<!-- 在Hexo中显示的替代内容 -->
+<div class="note info">
+<p><strong>昨日未完成事项</strong></p>
+<p>请查看昨日日记了解详情</p>
+</div>
 
 
 
 ## 编程项目
 - [ ] 
 
+<!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
 ```dataviewjs
 // Get current filename
 const currentFilename = dv.current().file.name;
@@ -271,7 +278,7 @@ if (yesterdayFile) {
         // 显示未完成的任务
         if (unfinishedTasks.length > 0) {
             // 添加标题和昨日日记的链接
-            dv.header(4, `昨日未完成编程项目 (来自 [[${yesterdayFile.path}|${yesterdayDateStr}]])`);
+            dv.header(4, `昨日未完成编程项目 (来自 [[${yesterdayFile.path}|${yesterdayDateStr}]]`);
 
             // 显示每个未完成的任务
             for(let task of unfinishedTasks) {
@@ -293,6 +300,11 @@ if (yesterdayFile) {
     dv.paragraph("- [ ] 在此处手动添加昨日未完成的编程项目");
 }
 ```
+<!-- 在Hexo中显示的替代内容 -->
+<div class="note info">
+<p><strong>昨日未完成编程项目</strong></p>
+<p>请查看昨日日记了解详情</p>
+</div>
 
 ## 今日运动
 
@@ -352,7 +364,8 @@ if (yesterdayFile) {
 - [ ] 完成今天的阅读
 
 
-<!-- 月记和周记查询 -->
+<!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
+<!-- 月记和周记查询 (Obsidian Dataview) -->
 ```dataview
 table file.name as "周记与月记", file.cday as "创建时间"
 from "周记" or "月记"
@@ -360,6 +373,8 @@ where year = this.file.cday.year
 where month = this.file.cday.month
 sort ascending
 ```
+<!-- 在Hexo中显示的替代内容 -->
+<!-- 请访问我的周记和月记分类查看更多内容 -->
 
 
 
