@@ -34,6 +34,7 @@ wrong_pass_message: 密码错误，请重试。
 - [ ] 
 
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
+<!--
 ```dataviewjs
 // Get current filename
 const currentFilename = dv.current().file.name;
@@ -161,6 +162,7 @@ if (yesterdayFile) {
     dv.paragraph("- [ ] 在此处手动添加昨日未完成的任务");
 }
 ```
+-->
 <!-- 在Hexo中显示的替代内容 -->
 <div class="note info">
 <p><strong>昨日未完成事项</strong></p>
@@ -173,6 +175,7 @@ if (yesterdayFile) {
 - [ ] 
 
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
+<!--
 ```dataviewjs
 // Get current filename
 const currentFilename = dv.current().file.name;
@@ -300,6 +303,7 @@ if (yesterdayFile) {
     dv.paragraph("- [ ] 在此处手动添加昨日未完成的编程项目");
 }
 ```
+-->
 <!-- 在Hexo中显示的替代内容 -->
 <div class="note info">
 <p><strong>昨日未完成编程项目</strong></p>
@@ -366,6 +370,7 @@ if (yesterdayFile) {
 
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
 <!-- 月记和周记查询 (Obsidian Dataview) -->
+<!--
 ```dataview
 table file.name as "周记与月记", file.cday as "创建时间"
 from "周记" or "月记"
@@ -373,6 +378,7 @@ where year = this.file.cday.year
 where month = this.file.cday.month
 sort ascending
 ```
+-->
 <!-- 在Hexo中显示的替代内容 -->
 <!-- 请访问我的周记和月记分类查看更多内容 -->
 
