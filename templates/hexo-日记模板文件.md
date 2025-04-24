@@ -34,7 +34,7 @@ wrong_pass_message: 密码错误，请重试。
 - [ ] 
 
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
-<!--
+<!-- 代码块已折叠，编辑时点击展开 -->
 ```dataviewjs
 // Get current filename
 const currentFilename = dv.current().file.name;
@@ -162,7 +162,6 @@ if (yesterdayFile) {
     dv.paragraph("- [ ] 在此处手动添加昨日未完成的任务");
 }
 ```
--->
 <!-- 在Hexo中显示的替代内容 -->
 <div class="note info">
 <p><strong>昨日未完成事项</strong></p>
@@ -175,7 +174,7 @@ if (yesterdayFile) {
 - [ ] 
 
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
-<!--
+<!-- 代码块已折叠，编辑时点击展开 -->
 ```dataviewjs
 // Get current filename
 const currentFilename = dv.current().file.name;
@@ -303,7 +302,6 @@ if (yesterdayFile) {
     dv.paragraph("- [ ] 在此处手动添加昨日未完成的编程项目");
 }
 ```
--->
 <!-- 在Hexo中显示的替代内容 -->
 <div class="note info">
 <p><strong>昨日未完成编程项目</strong></p>
