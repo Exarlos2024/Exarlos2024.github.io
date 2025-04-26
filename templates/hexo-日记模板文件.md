@@ -29,284 +29,353 @@ wrong_pass_message: 密码错误，请重试。
 
 ## 今日计划
 
+
+
+## TODO
+<%* /* 使用setTimeout延迟执行脚本，等待Obsidian环境加载完成 */
+tR += "<!-- 正在加载昨日未完成TODO... -->\n- [ ] 加载中...\n\n";
+
+// 定义一个函数，在文件创建后执行
+window.setTimeout(async () => {
+  try {
+    // 获取当前文件
+    const currentFile = app.workspace.getActiveFile();
+    if (!currentFile) {
+      console.error("无法获取当前文件");
+      return;
+    }
+    
+    // 获取昨天的日期（基于当前文件名）
+    const currentFileName = currentFile.basename;
+    const dateMatch = currentFileName.match(/^(\d{4}-\d{2}-\d{2})/);
+    
+    if (!dateMatch) {
+      console.error("无法从文件名解析日期:", currentFileName);
+      return;
+    }
+    
+    const currentDate = new Date(dateMatch[1]);
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const yesterdayStr = yesterday.toISOString().slice(0, 10); // YYYY-MM-DD
+    const dayNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    const yesterdayDayName = dayNames[yesterday.getDay()];
+    const yesterdayFileName = `${yesterdayStr}-${yesterdayDayName}`;
+    const yesterdayYear = yesterdayStr.slice(0, 4);
+    const folderPath = `source/_posts/日记/${yesterdayYear}`;
+    
+    console.log("查找昨日文件:", yesterdayFileName, "在路径:", folderPath);
+    
+    // 查找昨天的文件
+    let yesterdayFile = app.vault.getAbstractFileByPath(`${folderPath}/${yesterdayFileName}.md`);
+    
+    // 如果没找到，尝试搜索
+    if (!yesterdayFile) {
+      console.log("未找到精确路径，尝试搜索包含日期的文件");
+      const files = app.vault.getMarkdownFiles();
+      const potentialFiles = files.filter(f => 
+        f.path.includes('/日记/') && 
+        f.basename.startsWith(yesterdayStr)
+      );
+      
+      if (potentialFiles.length > 0) {
+        console.log("找到潜在文件:", potentialFiles.map(f => f.path).join(", "));
+        const exactMatch = potentialFiles.find(f => f.basename === yesterdayFileName);
+        yesterdayFile = exactMatch || potentialFiles[0];
+      }
+    }
+    
+    // 处理找到的文件
+    let unfinishedTasks = [];
+    if (yesterdayFile) {
+      console.log("找到昨日文件:", yesterdayFile.path);
+      const content = await app.vault.read(yesterdayFile);
+      const lines = content.split('\n');
+      let inTodoSection = false;
+      
+      for (const line of lines) {
+        if (line.trim() === '## TODO') {
+          inTodoSection = true;
+          continue;
+        }
+        if (inTodoSection && line.trim().startsWith('## ')) {
+          inTodoSection = false;
+          break;
+        }
+        if (inTodoSection && line.trim().startsWith('- [ ]')) {
+          unfinishedTasks.push(line.trim());
+        }
+      }
+      
+      console.log("找到未完成TODO任务:", unfinishedTasks.length);
+    } else {
+      console.log("未找到昨日文件");
+    }
+    
+    // 更新当前文件内容
+    let fileContent = await app.vault.read(currentFile);
+    let newContent;
+    
+    const placeholderRegex = /<!-- 正在加载昨日未完成TODO... -->\n- \[ \] 加载中...\n\n/;
+    
+    if (unfinishedTasks.length > 0) {
+      const tasksText = unfinishedTasks.join('\n') + '\n- [ ] \n\n';
+      newContent = fileContent.replace(placeholderRegex, tasksText);
+    } else {
+      newContent = fileContent.replace(placeholderRegex, "- [ ] <!-- 昨日TODO已完成 -->\n- [ ] \n\n");
+    }
+    
+    if (newContent !== fileContent) {
+      await app.vault.modify(currentFile, newContent);
+      console.log("已更新TODO部分");
+    } else {
+      console.error("无法更新TODO，可能是占位符不匹配");
+    }
+  } catch (error) {
+    console.error("加载昨日TODO时出错:", error);
+  }
+}, 2500); // 延迟2.5秒执行，比工作事项早一些
+_%>
+
 ## 工作事项
+<%* /* 使用setTimeout延迟执行脚本，等待Obsidian环境加载完成 */
+tR += "<!-- 正在加载昨日未完成任务... -->\n- [ ] 加载中...\n\n";
 
-- [ ] 
-
-<!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
-<!-- 代码块已折叠，编辑时点击展开 -->
-```dataviewjs
-// Get current filename
-const currentFilename = dv.current().file.name;
-
-// Extract date from filename (assuming format YYYY-MM-DD-周X.md)
-const dateMatch = currentFilename.match(/^(\d{4}-\d{2}-\d{2})/);
-
-let currentMoment;
-if (dateMatch && dateMatch[1]) {
-    currentMoment = moment(dateMatch[1], "YYYY-MM-DD");
-} else {
-    // Fallback or error handling if filename doesn't match
-    const fileDay = dv.current().file.day;
-    if (fileDay && moment(fileDay.toFormat("YYYY-MM-DD")).isValid()) {
-        currentMoment = moment(fileDay.toFormat("YYYY-MM-DD"));
-    } else {
-        dv.paragraph("⚠️ 无法获取有效当前日期，无法计算昨日事项。");
-        // Stop execution if no valid date is found
-        return;
+// 定义一个函数，在文件创建后执行
+window.setTimeout(async () => {
+  try {
+    // 获取当前文件
+    const currentFile = app.workspace.getActiveFile();
+    if (!currentFile) {
+      console.error("无法获取当前文件");
+      return;
     }
-}
-
-// Ensure currentMoment is valid before proceeding
-if (!currentMoment || !currentMoment.isValid()) {
-    dv.paragraph("⚠️ 无效的当前日期，无法计算昨日事项。");
-    return;
-}
-
-// Calculate yesterday's date - Clone the moment object to avoid modifying the original
-const yesterdayMoment = currentMoment.clone().subtract(1, 'days');
-
-// Format yesterday's date string (e.g., "2025-04-21")
-const yesterdayDateStr = yesterdayMoment.format("YYYY-MM-DD");
-
-// Map day numbers to Chinese day names (0 = Sunday, 1 = Monday, etc.)
-const dayMap = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-const yesterdayDayName = dayMap[yesterdayMoment.day()]; // Get Chinese day name using day() which returns 0-6
-
-// Construct the expected filename for yesterday's diary
-const yesterdayFileName = `${yesterdayDateStr}-${yesterdayDayName}.md`;
-
-// Construct the folder path for yesterday's diary based on the year
-const yesterdayYear = yesterdayMoment.format("YYYY");
-const yesterdayFolderPath = `source/_posts/日记/${yesterdayYear}`;
-
-// 调试信息
-dv.paragraph(`🔍 正在查找昨日日记: ${yesterdayDateStr}-${yesterdayDayName}`);
-
-// 使用更灵活的查询方式
-let allDiaryPages = dv.pages()
-    .where(p => p.file.path.includes('/日记/') &&
-           p.file.name.startsWith(yesterdayDateStr));
-
-// 显示找到的文件数量
-dv.paragraph(`📋 找到 ${allDiaryPages.length} 个可能的文件`);
-
-// 查找昨天的日记文件
-let yesterdayFile = null;
-
-if (allDiaryPages.length > 0) {
-    // 显示找到的所有文件
-    for (let i = 0; i < allDiaryPages.length; i++) {
-        dv.paragraph(`- 文件 ${i+1}: ${allDiaryPages[i].file.name} (路径: ${allDiaryPages[i].file.path})`);
+    
+    // 获取昨天的日期（基于当前文件名）
+    const currentFileName = currentFile.basename;
+    const dateMatch = currentFileName.match(/^(\d{4}-\d{2}-\d{2})/);
+    
+    if (!dateMatch) {
+      console.error("无法从文件名解析日期:", currentFileName);
+      return;
     }
-
-    // 尝试精确匹配
-    const exactMatch = allDiaryPages.find(p => p.file.name === yesterdayFileName.replace('.md', ''));
-    if (exactMatch) {
-        yesterdayFile = exactMatch.file;
-        dv.paragraph(`✅ 找到精确匹配: ${yesterdayFile.name}`);
-    } else {
-        // 如果没有精确匹配，使用第一个以昨天日期开头的文件
-        yesterdayFile = allDiaryPages[0].file;
-        dv.paragraph(`⚠️ 未找到精确匹配，使用最接近的文件: ${yesterdayFile.name}`);
+    
+    const currentDate = new Date(dateMatch[1]);
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const yesterdayStr = yesterday.toISOString().slice(0, 10); // YYYY-MM-DD
+    const dayNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    const yesterdayDayName = dayNames[yesterday.getDay()];
+    const yesterdayFileName = `${yesterdayStr}-${yesterdayDayName}`;
+    const yesterdayYear = yesterdayStr.slice(0, 4);
+    const folderPath = `source/_posts/日记/${yesterdayYear}`;
+    
+    console.log("查找昨日文件:", yesterdayFileName, "在路径:", folderPath);
+    
+    // 查找昨天的文件
+    let yesterdayFile = app.vault.getAbstractFileByPath(`${folderPath}/${yesterdayFileName}.md`);
+    
+    // 如果没找到，尝试搜索
+    if (!yesterdayFile) {
+      console.log("未找到精确路径，尝试搜索包含日期的文件");
+      const files = app.vault.getMarkdownFiles();
+      const potentialFiles = files.filter(f => 
+        f.path.includes('/日记/') && 
+        f.basename.startsWith(yesterdayStr)
+      );
+      
+      if (potentialFiles.length > 0) {
+        console.log("找到潜在文件:", potentialFiles.map(f => f.path).join(", "));
+        const exactMatch = potentialFiles.find(f => f.basename === yesterdayFileName);
+        yesterdayFile = exactMatch || potentialFiles[0];
+      }
     }
-}
-
-if (yesterdayFile) {
-    try {
-        // 读取文件内容
-        const content = await dv.io.load(yesterdayFile.path);
-        const lines = content.split('\n');
-        let inTaskSection = false;
-        const unfinishedTasks = [];
-
-        // 查找未完成的任务
-        for (const line of lines) {
-            if (line.trim().startsWith('## 工作事项')) {
-                inTaskSection = true;
-                continue;
-            }
-            // 如果遇到下一个二级标题或文件结束标记，停止读取
-            if (inTaskSection && (line.trim().startsWith('## ') || line.trim().startsWith('---') || line.trim().startsWith('```dataview'))) {
-                inTaskSection = false;
-                break;
-            }
-            if (inTaskSection && line.trim().startsWith('- [ ]')) {
-                // 只提取任务文本，不添加链接
-                unfinishedTasks.push(line.trim());
-            }
+    
+    // 处理找到的文件
+    let unfinishedTasks = [];
+    if (yesterdayFile) {
+      console.log("找到昨日文件:", yesterdayFile.path);
+      const content = await app.vault.read(yesterdayFile);
+      const lines = content.split('\n');
+      let inWorkSection = false;
+      
+      for (const line of lines) {
+        if (line.trim() === '## 工作事项') {
+          inWorkSection = true;
+          continue;
         }
-
-        // 显示未完成的任务
-        if (unfinishedTasks.length > 0) {
-            // 添加标题和昨日日记的链接
-            dv.header(4, `昨日未完成事项 (来自 [[${yesterdayFile.path}|${yesterdayDateStr}]]`);
-
-            // 显示每个未完成的任务
-            for(let task of unfinishedTasks) {
-                dv.paragraph(task);
-            }
-        } else {
-            dv.paragraph("✅ 昨日事项已全部完成。");
+        if (inWorkSection && line.trim().startsWith('## ')) {
+          inWorkSection = false;
+          break;
         }
-    } catch (error) {
-        dv.paragraph(`⚠️ 读取昨日日记文件时出错: ${error.message}`);
+        if (inWorkSection && line.trim().startsWith('- [ ]')) {
+          unfinishedTasks.push(line.trim());
+        }
+      }
+      
+      console.log("找到未完成工作任务:", unfinishedTasks.length);
+    } else {
+      console.log("未找到昨日文件");
     }
-} else {
-    // 更详细的错误信息
-    dv.paragraph(`ℹ️ 未找到昨日 (${yesterdayDateStr}-${yesterdayDayName}) 的日记文件。`);
-    dv.paragraph(`预期路径: ${yesterdayFolderPath}/${yesterdayFileName}`);
-
-    // 添加手动填写昨日未完成事项的部分
-    dv.header(4, "手动添加昨日未完成事项");
-    dv.paragraph("- [ ] 在此处手动添加昨日未完成的任务");
-}
-```
-<!-- 在Hexo中显示的替代内容 -->
-<div class="note info">
-<p><strong>昨日未完成事项</strong></p>
-<p>请查看昨日日记了解详情</p>
-</div>
-
-
+    
+    // 更新当前文件内容
+    let fileContent = await app.vault.read(currentFile);
+    let newContent;
+    
+    const placeholderRegex = /<!-- 正在加载昨日未完成任务... -->\n- \[ \] 加载中...\n\n/;
+    
+    if (unfinishedTasks.length > 0) {
+      const tasksText = unfinishedTasks.join('\n') + '\n- [ ] \n\n';
+      newContent = fileContent.replace(placeholderRegex, tasksText);
+    } else {
+      newContent = fileContent.replace(placeholderRegex, "- [ ] <!-- 昨日工作已完成 -->\n- [ ] \n\n");
+    }
+    
+    if (newContent !== fileContent) {
+      await app.vault.modify(currentFile, newContent);
+      console.log("已更新工作事项部分");
+    } else {
+      console.error("无法更新工作事项，可能是占位符不匹配");
+    }
+  } catch (error) {
+    console.error("加载昨日任务时出错:", error);
+  }
+}, 3000); // 延迟3秒执行
+_%>
 
 ## 编程项目
-- [ ] 
+<%* /* 使用setTimeout延迟执行脚本，等待Obsidian环境加载完成 */
+tR += "<!-- 正在加载昨日未完成项目... -->\n- [ ] 加载中...\n\n";
 
-<!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
-<!-- 代码块已折叠，编辑时点击展开 -->
-```dataviewjs
-// Get current filename
-const currentFilename = dv.current().file.name;
-
-// Extract date from filename (assuming format YYYY-MM-DD-周X.md)
-const dateMatch = currentFilename.match(/^(\d{4}-\d{2}-\d{2})/);
-
-let currentMoment;
-if (dateMatch && dateMatch[1]) {
-    currentMoment = moment(dateMatch[1], "YYYY-MM-DD");
-} else {
-    // Fallback or error handling if filename doesn't match
-    const fileDay = dv.current().file.day;
-    if (fileDay && moment(fileDay.toFormat("YYYY-MM-DD")).isValid()) {
-        currentMoment = moment(fileDay.toFormat("YYYY-MM-DD"));
-    } else {
-        dv.paragraph("⚠️ 无法获取有效当前日期，无法计算昨日事项。");
-        // Stop execution if no valid date is found
-        return;
+// 定义一个函数，在文件创建后执行
+window.setTimeout(async () => {
+  try {
+    // 获取当前文件
+    const currentFile = app.workspace.getActiveFile();
+    if (!currentFile) {
+      console.error("无法获取当前文件");
+      return;
     }
-}
-
-// Ensure currentMoment is valid before proceeding
-if (!currentMoment || !currentMoment.isValid()) {
-    dv.paragraph("⚠️ 无效的当前日期，无法计算昨日事项。");
-    return;
-}
-
-// Calculate yesterday's date - Clone the moment object to avoid modifying the original
-const yesterdayMoment = currentMoment.clone().subtract(1, 'days');
-
-// Format yesterday's date string (e.g., "2025-04-21")
-const yesterdayDateStr = yesterdayMoment.format("YYYY-MM-DD");
-
-// Map day numbers to Chinese day names (0 = Sunday, 1 = Monday, etc.)
-const dayMap = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-const yesterdayDayName = dayMap[yesterdayMoment.day()]; // Get Chinese day name using day() which returns 0-6
-
-// Construct the expected filename for yesterday's diary
-const yesterdayFileName = `${yesterdayDateStr}-${yesterdayDayName}.md`;
-
-// Construct the folder path for yesterday's diary based on the year
-const yesterdayYear = yesterdayMoment.format("YYYY");
-const yesterdayFolderPath = `source/_posts/日记/${yesterdayYear}`;
-
-// 调试信息
-dv.paragraph(`🔍 正在查找昨日日记: ${yesterdayDateStr}-${yesterdayDayName}`);
-
-// 使用更灵活的查询方式
-let allDiaryPages = dv.pages()
-    .where(p => p.file.path.includes('/日记/') &&
-           p.file.name.startsWith(yesterdayDateStr));
-
-// 显示找到的文件数量
-dv.paragraph(`📋 找到 ${allDiaryPages.length} 个可能的文件`);
-
-// 查找昨天的日记文件
-let yesterdayFile = null;
-
-if (allDiaryPages.length > 0) {
-    // 显示找到的所有文件
-    for (let i = 0; i < allDiaryPages.length; i++) {
-        dv.paragraph(`- 文件 ${i+1}: ${allDiaryPages[i].file.name} (路径: ${allDiaryPages[i].file.path})`);
+    
+    // 获取昨天的日期（基于当前文件名）
+    const currentFileName = currentFile.basename;
+    const dateMatch = currentFileName.match(/^(\d{4}-\d{2}-\d{2})/);
+    
+    if (!dateMatch) {
+      console.error("无法从文件名解析日期:", currentFileName);
+      return;
     }
-
-    // 尝试精确匹配
-    const exactMatch = allDiaryPages.find(p => p.file.name === yesterdayFileName.replace('.md', ''));
-    if (exactMatch) {
-        yesterdayFile = exactMatch.file;
-        dv.paragraph(`✅ 找到精确匹配: ${yesterdayFile.name}`);
-    } else {
-        // 如果没有精确匹配，使用第一个以昨天日期开头的文件
-        yesterdayFile = allDiaryPages[0].file;
-        dv.paragraph(`⚠️ 未找到精确匹配，使用最接近的文件: ${yesterdayFile.name}`);
+    
+    const currentDate = new Date(dateMatch[1]);
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const yesterdayStr = yesterday.toISOString().slice(0, 10); // YYYY-MM-DD
+    const dayNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    const yesterdayDayName = dayNames[yesterday.getDay()];
+    const yesterdayFileName = `${yesterdayStr}-${yesterdayDayName}`;
+    const yesterdayYear = yesterdayStr.slice(0, 4);
+    const folderPath = `source/_posts/日记/${yesterdayYear}`;
+    
+    console.log("查找昨日文件:", yesterdayFileName, "在路径:", folderPath);
+    
+    // 查找昨天的文件
+    let yesterdayFile = app.vault.getAbstractFileByPath(`${folderPath}/${yesterdayFileName}.md`);
+    
+    // 如果没找到，尝试搜索
+    if (!yesterdayFile) {
+      console.log("未找到精确路径，尝试搜索包含日期的文件");
+      const files = app.vault.getMarkdownFiles();
+      const potentialFiles = files.filter(f => 
+        f.path.includes('/日记/') && 
+        f.basename.startsWith(yesterdayStr)
+      );
+      
+      if (potentialFiles.length > 0) {
+        console.log("找到潜在文件:", potentialFiles.map(f => f.path).join(", "));
+        const exactMatch = potentialFiles.find(f => f.basename === yesterdayFileName);
+        yesterdayFile = exactMatch || potentialFiles[0];
+      }
     }
-}
-
-if (yesterdayFile) {
-    try {
-        // 读取文件内容
-        const content = await dv.io.load(yesterdayFile.path);
-        const lines = content.split('\n');
-        let inProgrammingSection = false;
-        const unfinishedTasks = [];
-
-        // 查找未完成的编程项目任务
-        for (const line of lines) {
-            if (line.trim().startsWith('## 编程项目')) {
-                inProgrammingSection = true;
-                continue;
-            }
-            // 如果遇到下一个二级标题或文件结束标记，停止读取
-            if (inProgrammingSection && (line.trim().startsWith('## ') || line.trim().startsWith('---') || line.trim().startsWith('```dataview'))) {
-                inProgrammingSection = false;
-                break;
-            }
-            if (inProgrammingSection && line.trim().startsWith('- [ ]')) {
-                // 只提取任务文本，不添加链接
-                unfinishedTasks.push(line.trim());
-            }
+    
+    // 处理找到的文件
+    let unfinishedTasks = [];
+    if (yesterdayFile) {
+      console.log("找到昨日文件:", yesterdayFile.path);
+      const content = await app.vault.read(yesterdayFile);
+      const lines = content.split('\n');
+      let inProgrammingSection = false;
+      
+      for (const line of lines) {
+        if (line.trim() === '## 编程项目') {
+          inProgrammingSection = true;
+          continue;
         }
-
-        // 显示未完成的任务
-        if (unfinishedTasks.length > 0) {
-            // 添加标题和昨日日记的链接
-            dv.header(4, `昨日未完成编程项目 (来自 [[${yesterdayFile.path}|${yesterdayDateStr}]]`);
-
-            // 显示每个未完成的任务
-            for(let task of unfinishedTasks) {
-                dv.paragraph(task);
-            }
-        } else {
-            dv.paragraph("✅ 昨日编程项目已全部完成。");
+        if (inProgrammingSection && line.trim().startsWith('## ')) {
+          inProgrammingSection = false;
+          break;
         }
-    } catch (error) {
-        dv.paragraph(`⚠️ 读取昨日日记文件时出错: ${error.message}`);
+        if (inProgrammingSection && line.trim().startsWith('- [ ]')) {
+          unfinishedTasks.push(line.trim());
+        }
+      }
+      
+      console.log("找到未完成编程任务:", unfinishedTasks.length);
+    } else {
+      console.log("未找到昨日文件");
     }
-} else {
-    // 更详细的错误信息
-    dv.paragraph(`ℹ️ 未找到昨日 (${yesterdayDateStr}-${yesterdayDayName}) 的日记文件。`);
-    dv.paragraph(`预期路径: ${yesterdayFolderPath}/${yesterdayFileName}`);
+    
+    // 更新当前文件内容
+    let fileContent = await app.vault.read(currentFile);
+    let newContent;
+    
+    const placeholderRegex = /<!-- 正在加载昨日未完成项目... -->\n- \[ \] 加载中...\n\n/;
+    
+    if (unfinishedTasks.length > 0) {
+      const tasksText = unfinishedTasks.join('\n') + '\n- [ ] \n\n';
+      newContent = fileContent.replace(placeholderRegex, tasksText);
+    } else {
+      newContent = fileContent.replace(placeholderRegex, "- [ ] <!-- 昨日编程项目已完成 -->\n- [ ] \n\n");
+    }
+    
+    if (newContent !== fileContent) {
+      await app.vault.modify(currentFile, newContent);
+      console.log("已更新编程项目部分");
+    } else {
+      console.error("无法更新编程项目，可能是占位符不匹配");
+    }
+  } catch (error) {
+    console.error("加载昨日项目时出错:", error);
+  }
+}, 3500); // 延迟3.5秒执行，比工作事项稍晚一些
+_%>
 
-    // 添加手动填写昨日未完成事项的部分
-    dv.header(4, "手动添加昨日未完成编程项目");
-    dv.paragraph("- [ ] 在此处手动添加昨日未完成的编程项目");
-}
-```
-<!-- 在Hexo中显示的替代内容 -->
-<div class="note info">
-<p><strong>昨日未完成编程项目</strong></p>
-<p>请查看昨日日记了解详情</p>
-</div>
+
+## 习惯追踪
+- [ ] 早起（6:00前）
+- [ ] 冥想15分钟
+- [ ] 阅读30分钟
+- [ ] 写作500字
+- [ ] 喝水2000ml
+- [ ] 锻炼30分钟
+- [ ] 学习1小时
+- [ ] 早睡（23:00前）
+
+## 今日时间块
+- 06:00-07:00：晨间routine
+- 07:00-09:00：深度工作
+- 09:00-09:30：休息
+- 09:30-11:30：会议/沟通
+- 11:30-12:30：午餐/休息
+- 12:30-14:30：深度工作
+- 14:30-15:00：休息
+- 15:00-17:00：处理邮件/杂务
+- 17:00-18:30：运动
+- 18:30-19:30：晚餐
+- 19:30-21:30：学习/阅读
+- 21:30-22:30：放松/准备睡眠
 
 ## 今日运动
 
@@ -368,7 +437,6 @@ if (yesterdayFile) {
 
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
 <!-- 月记和周记查询 (Obsidian Dataview) -->
-<!--
 ```dataview
 table file.name as "周记与月记", file.cday as "创建时间"
 from "周记" or "月记"
@@ -376,7 +444,6 @@ where year = this.file.cday.year
 where month = this.file.cday.month
 sort ascending
 ```
--->
 <!-- 在Hexo中显示的替代内容 -->
 <!-- 请访问我的周记和月记分类查看更多内容 -->
 
