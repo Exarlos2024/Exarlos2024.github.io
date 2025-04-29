@@ -27,11 +27,114 @@ wrong_pass_message: 密码错误，请重试。
 
 # {{date:YYYY-MM-DD}}-{{date:dddd}} #日记
 
-## 今日计划
+## 今日计划(当天需要完成的任务)
+<%* /* 使用setTimeout延迟执行脚本，等待Obsidian环境加载完成 */
+tR += "<!-- 正在加载昨日未完成计划... -->\n- [ ] 加载中...\n\n";
 
+// 定义一个函数，在文件创建后执行
+window.setTimeout(async () => {
+  try {
+    // 获取当前文件
+    const currentFile = app.workspace.getActiveFile();
+    if (!currentFile) {
+      console.error("无法获取当前文件");
+      return;
+    }
+    
+    // 获取昨天的日期（基于当前文件名）
+    const currentFileName = currentFile.basename;
+    const dateMatch = currentFileName.match(/^(\d{4}-\d{2}-\d{2})/);
+    
+    if (!dateMatch) {
+      console.error("无法从文件名解析日期:", currentFileName);
+      return;
+    }
+    
+    const currentDate = new Date(dateMatch[1]);
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const yesterdayStr = yesterday.toISOString().slice(0, 10); // YYYY-MM-DD
+    const dayNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    const yesterdayDayName = dayNames[yesterday.getDay()];
+    const yesterdayFileName = `${yesterdayStr}-${yesterdayDayName}`;
+    const yesterdayYear = yesterdayStr.slice(0, 4);
+    const folderPath = `source/_posts/日记/${yesterdayYear}`;
+    
+    console.log("查找昨日文件:", yesterdayFileName, "在路径:", folderPath);
+    
+    // 查找昨天的文件
+    let yesterdayFile = app.vault.getAbstractFileByPath(`${folderPath}/${yesterdayFileName}.md`);
+    
+    // 如果没找到，尝试搜索
+    if (!yesterdayFile) {
+      console.log("未找到精确路径，尝试搜索包含日期的文件");
+      const files = app.vault.getMarkdownFiles();
+      const potentialFiles = files.filter(f => 
+        f.path.includes('/日记/') && 
+        f.basename.startsWith(yesterdayStr)
+      );
+      
+      if (potentialFiles.length > 0) {
+        console.log("找到潜在文件:", potentialFiles.map(f => f.path).join(", "));
+        const exactMatch = potentialFiles.find(f => f.basename === yesterdayFileName);
+        yesterdayFile = exactMatch || potentialFiles[0];
+      }
+    }
+    
+    // 处理找到的文件
+    let unfinishedTasks = [];
+    if (yesterdayFile) {
+      console.log("找到昨日文件:", yesterdayFile.path);
+      const content = await app.vault.read(yesterdayFile);
+      const lines = content.split('\n');
+      let inPlanSection = false;
+      
+      for (const line of lines) {
+        if (line.trim().startsWith('## 今日计划')) {
+          inPlanSection = true;
+          continue;
+        }
+        if (inPlanSection && line.trim().startsWith('## ')) {
+          inPlanSection = false;
+          break;
+        }
+        if (inPlanSection && line.trim().startsWith('- [ ]')) {
+          unfinishedTasks.push(line.trim());
+        }
+      }
+      
+      console.log("找到未完成计划任务:", unfinishedTasks.length);
+    } else {
+      console.log("未找到昨日文件");
+    }
+    
+    // 更新当前文件内容
+    let fileContent = await app.vault.read(currentFile);
+    let newContent;
+    
+    const placeholderRegex = /<!-- 正在加载昨日未完成计划... -->\n- \[ \] 加载中...\n\n/;
+    
+    if (unfinishedTasks.length > 0) {
+      const tasksText = unfinishedTasks.join('\n') + '\n- [ ] \n\n';
+      newContent = fileContent.replace(placeholderRegex, tasksText);
+    } else {
+      newContent = fileContent.replace(placeholderRegex, "- [ ] <!-- 昨日计划已完成 -->\n- [ ] \n\n");
+    }
+    
+    if (newContent !== fileContent) {
+      await app.vault.modify(currentFile, newContent);
+      console.log("已更新今日计划部分");
+    } else {
+      console.error("无法更新今日计划，可能是占位符不匹配");
+    }
+  } catch (error) {
+    console.error("加载昨日计划时出错:", error);
+  }
+}, 2000); // 延迟2秒执行，比其他部分更早
+_%>
 
-
-## TODO
+## TODO(最近一周内的任务)
 <%* /* 使用setTimeout延迟执行脚本，等待Obsidian环境加载完成 */
 tR += "<!-- 正在加载昨日未完成TODO... -->\n- [ ] 加载中...\n\n";
 
