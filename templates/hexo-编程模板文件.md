@@ -11,8 +11,10 @@ categories:
 tags:
   - 编程
 cover: 
-thumbnail: 
 toc:
+year: {{date:YYYY}}
+month: {{date:MM}}
+week: {{date:ww}}
 ---
 
 <!-- 在此处添加文章摘要 -->
