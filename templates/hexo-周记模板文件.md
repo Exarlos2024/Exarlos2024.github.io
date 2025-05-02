@@ -1,4 +1,5 @@
 ---
+title: 周记-{{date:YYYY}}年第{{date:WW}}周
 创建时间: {{date:YYYY-MM-DD-ddd HH:mm}} 
 year: {{date:YYYY}}
 month: {{date:MM}}

@@ -1,3 +1,19 @@
+---
+title: <% tp.file.title %>
+date: 2025-05-02 22:07:37
+updated: 2025-05-02 22:07:37
+author: Exarlos 艾克萨罗斯
+email: 452361419@qq.com
+description: 
+keywords: 
+categories:
+  - obsidian
+tags:
+  - obsidian
+cover: 
+thumbnail: 
+toc:
+---
 # Dataview的学习
 
 ## 说明文档

@@ -11,7 +11,6 @@ categories:
 tags: 
   - 未标签
 cover: 
-thumbnail: 
 # 如果需要密码保护，取消下面的注释并设置密码
 password: 747937 # 文章密码
 message: 请输入密码访问     # 密码提示信息
