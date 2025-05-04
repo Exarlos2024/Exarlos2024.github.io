@@ -22,6 +22,11 @@ toc:
 
 [Recurring Tasks - Tasks User Guide - Obsidian Publish](https://publish.obsidian.md/tasks/Getting+Started/Recurring+Tasks)
 
+<!-- 在此处添加文章摘要 -->
+{% note info %}
+**文章摘要**
+{% endnote %}
+<!-- more -->
 
 ## 如何设置循环任务?
 在 Obsidian 的 Tasks 插件中，`recurs`（重复规则）部分需要用特定的英语格式来设置不同的重复周期。下面为你详细介绍每周一重复、每个月 1 号重复等常见重复模式的写法：

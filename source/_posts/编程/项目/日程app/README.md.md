@@ -19,6 +19,11 @@ isOriginal: true
 
 # readme-2025-05-编程-日程
 
+<!-- 在此处添加文章摘要 -->
+{% note info %}
+**文章摘要**
+{% endnote %}
+<!-- more -->
 
 ## 项目概述
 

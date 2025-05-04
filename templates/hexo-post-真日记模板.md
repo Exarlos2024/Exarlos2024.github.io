@@ -27,7 +27,11 @@ wrong_pass_message: 密码错误，请重试。
 # <% tp.date.now("YYYY-MM-DD - dddd") %>
 
 ## 我真正的记录
-
+<!-- 在此处添加文章摘要 -->
+{% note info %}
+**文章摘要**
+{% endnote %}
+<!-- more -->
 
 ---
 > 本文由 Exarlos 创作，采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc-sa/4.0/) 进行许可。

@@ -10,6 +10,12 @@ tags:
 ---
 # {{title}} #周记 
 
+<!-- 在此处添加文章摘要 -->
+{% note info %}
+**文章摘要**
+{% endnote %}
+<!-- more -->
+
 ---
 ## 日记集合
 [[{{monday:YYYY-MM-DD-ddd}}]]
