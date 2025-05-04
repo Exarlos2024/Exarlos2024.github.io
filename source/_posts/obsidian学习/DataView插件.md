@@ -1,5 +1,5 @@
 ---
-title: <% tp.file.title %>
+title: DataView插件
 date: 2025-05-02 22:07:37
 updated: 2025-05-02 22:07:37
 author: Exarlos 艾克萨罗斯

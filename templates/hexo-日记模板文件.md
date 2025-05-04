@@ -19,29 +19,81 @@ wrong_pass_message: 密码错误，请重试。
 year: {{date:YYYY}}
 month: {{date:MM}}
 week: {{date:ww}}
+每日运动: false
+每日编程: false
+每日弹钢琴: false
+每日背单词: false
+学习阅读: false
+每日输出: false
+每日冥想: false
+每日日记: false
+每日思考: false
 ---
 
 <!-- 在此处添加文章摘要 -->
 {% note info %}
 **文章摘要**
 {% endnote %}
-
 <!-- more -->
 
 # {{date:YYYY-MM-DD}}-{{date:dddd}} #日记
-## 习惯
-- [ ] 早起
-- [ ] 过午不食
+```dataview
+table file.name as "周记", file.cday as "创建时间"
+from "002hexoblog/source/_posts/周记/2025"
+where year = this.file.cday.year
+where month = this.file.cday.month
+where week = this.file.cday.week
+sort ascending
+```
+## 热力图
+
+```contributionGraph startOfWeek: 1
+showCellRuleIndicators: true
+titleStyle:
+  textAlign: center
+  fontSize: 30px
+  fontWeight: normal
+dataSource:
+  type: PAGE
+  value: '"002hexoblog/source/_posts/日记/2025"'
+  dateField: {}
+  filters: []
+  countField:
+    type: PAGE_PROPERTY
+    value: 每日运动
+countField:
+  type: PAGE_PROPERTY
+  value: 每日运动
+fillTheScreen: true
+enableMainContainerShadow: false
+cellStyleRules: []
+title: 每日运动
+leRules: []
+graphType: default
+dateRangeValue: 180
+dateRangeType: LATEST_DAYS
+e: 180
+
+ 每日运动
+leRules: []
+ 
+```
+
+## 习惯追踪
+- [ ] 早起（6:00前）
+- [ ] 早睡（23:00前）
+- [ ] 冥想15分钟
+- [ ] 喝水2000ml
 - [ ] 吃蛋白粉
-- [ ] 每日日语
+- [ ] 过午不食
+- [ ] 每日运动
+- [ ] 锻炼30分钟
 - [ ] 每日编程
 - [ ] 每日弹钢琴
-- [ ] 学习阅读
-- [ ] 每日运动
+- [ ] 每天阅读-要具体书-要多久
 - [ ] 每日输出
-- [ ] 每日写作
-- [ ] 每日学习
-- [ ] 每日冥想
+- [ ] 写作500字
+- [ ] 每日日语
 - [ ] 每日背单词
 
 
@@ -53,7 +105,7 @@ week: {{date:ww}}
 console.log("当前页面的 week 属性值:", dv.current().week || dv.current().file.frontmatter.week);
 
 // 使用绝对路径尝试查找文件
-const validPages = dv.pages('"002hexoblog/source/_posts/日记/2025"')
+const validPages = dv.pages('"002hexoblog/source/日志/2025"')
  .filter(p => {
     // 尝试多种方式获取week属性
     const pageWeek = p.week || (p.file.frontmatter ? p.file.frontmatter.week : null);
@@ -177,7 +229,7 @@ if (uniqueTasks.length === 0) {
 console.log("当前页面的 week 属性值:", dv.current().week || dv.current().file.frontmatter.week);
 
 // 使用绝对路径尝试查找文件
-const validPages = dv.pages('"002hexoblog/source/_posts/日记/2025"')
+const validPages = dv.pages('"002hexoblog/source/日志/2025"')
  .filter(p => {
     // 尝试多种方式获取week属性
     const pageWeek = p.week || (p.file.frontmatter ? p.file.frontmatter.week : null);
@@ -313,6 +365,14 @@ WHERE due = date(today) + dur(1 day)
 SORT due ASC
 ```
 
+### 过期工作
+```dataview
+TASK
+FROM "002hexoblog/source/工作目录"
+WHERE due < date(today)
+SORT due ASC
+```
+
 ### 本周的工作
 ```dataviewjs
 const now = new Date();
@@ -324,9 +384,6 @@ const endOfWeek = new Date(now);
 endOfWeek.setDate(now.getDate() - now.getDay() + 7);
 endOfWeek.setHours(23, 59, 59, 999);
 
-console.log("本周开始日期:", startOfWeek);
-console.log("本周结束日期:", endOfWeek);
-
 const tasks = dv.pages('"002hexoblog/source/工作目录"')
 .flatMap(p => p.file.tasks)
 .filter(t => {
@@ -334,143 +391,135 @@ const tasks = dv.pages('"002hexoblog/source/工作目录"')
     return dueDate && dueDate >= startOfWeek && dueDate <= endOfWeek;
 })
 .sort(t => t.due);
-
-console.log("筛选出的任务数量:", tasks.length);
-
 dv.taskList(tasks);
 ```
 ## 编程项目
-<%* /* 使用setTimeout延迟执行脚本，等待Obsidian环境加载完成 */
-tR += "<!-- 正在加载昨日未完成项目... -->\n- [ ] 加载中...\n\n";
 
-// 定义一个函数，在文件创建后执行
-window.setTimeout(async () => {
-  try {
-    // 获取当前文件
-    const currentFile = app.workspace.getActiveFile();
-    if (!currentFile) {
-      console.error("无法获取当前文件");
-      return;
+在这里需要列出编程文档的链接。
+还有一些需要完成的编程项目的todo块 
+
+- [ ] 
+
+```dataviewjs
+// 打印当前页面的 week 属性用于调试
+console.log("当前页面的 week 属性值:", dv.current().week || dv.current().file.frontmatter.week);
+
+// 使用绝对路径尝试查找文件
+const validPages = dv.pages('"002hexoblog/source/日志/2025"')
+ .filter(p => {
+    // 尝试多种方式获取week属性
+    const pageWeek = p.week || (p.file.frontmatter ? p.file.frontmatter.week : null);
+    const currentWeek = dv.current().week || (dv.current().file.frontmatter ? dv.current().file.frontmatter.week : null);
+    
+    console.log(`页面 ${p.file.name} 的week属性: ${pageWeek}, 类型: ${typeof pageWeek}`);
+    console.log(`当前页面week属性: ${currentWeek}, 类型: ${typeof currentWeek}`);
+    
+    if (!pageWeek) {
+      console.log(`页面 ${p.file.name} 无法获取week属性`);
+      return false;
     }
     
-    // 获取昨天的日期（基于当前文件名）
-    const currentFileName = currentFile.basename;
-    const dateMatch = currentFileName.match(/^(\d{4}-\d{2}-\d{2})/);
+    // 确保进行数字比较而非字符串比较
+    const isSameWeek = Number(pageWeek) === Number(currentWeek);
+    console.log(`页面 ${p.file.name} 比较结果: ${isSameWeek}`);
     
-    if (!dateMatch) {
-      console.error("无法从文件名解析日期:", currentFileName);
-      return;
+    if (!isSameWeek) {
+      console.log(`页面 ${p.file.name} 的week属性值为 ${pageWeek}，与当前页面(${currentWeek})不同`);
+    }
+    return isSameWeek;
+  });
+
+console.log("找到符合week条件的页面数量:", validPages.length);
+validPages.forEach(p => console.log("符合条件的页面:", p.file.name));
+
+// 尝试多种方式获取任务
+let tasks = [];
+try {
+  // 先获取所有任务，不做筛选
+  const allTasks = validPages.flatMap(p => {
+    const pageTasks = p.file.tasks || [];
+    console.log(`页面 ${p.file.name} 的所有任务数量: ${pageTasks.length}`);
+    
+    // 输出每个任务的section信息
+    pageTasks.forEach((t, i) => {
+      console.log(`任务${i+1}: ${t.text}, section: ${t.section ? t.section.subpath : '无section'}`);
+    });
+    
+    return pageTasks;
+  });
+  
+  console.log("所有任务数量:", allTasks.length);
+  
+  // 修改排序逻辑，避免访问不存在的属性
+  tasks = allTasks.filter(t => {
+    if (!t || !t.section || !t.section.subpath) {
+      console.log(`任务 "${t ? t.text : '未知'}" 没有section信息`);
+      return false;
     }
     
-    const currentDate = new Date(dateMatch[1]);
-    const yesterday = new Date(currentDate);
-    yesterday.setDate(yesterday.getDate() - 1);
+    const result = t.section.subpath.includes("编程项目") ;
+    console.log(`任务 "${t.text}" section: ${t.section.subpath}, 匹配结果: ${result}`);
+    return result;
+  })
+  .sort((a, b) => {
+    // 安全地获取日期属性，如果不存在则使用默认值
+    let dayA = 0;
+    let dayB = 0;
     
-    const yesterdayStr = yesterday.toISOString().slice(0, 10); // YYYY-MM-DD
-    const dayNames = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-    const yesterdayDayName = dayNames[yesterday.getDay()];
-    const yesterdayFileName = `${yesterdayStr}-${yesterdayDayName}`;
-    const yesterdayYear = yesterdayStr.slice(0, 4);
-    const folderPath = `source/_posts/日记/${yesterdayYear}`;
-    
-    console.log("查找昨日文件:", yesterdayFileName, "在路径:", folderPath);
-    
-    // 查找昨天的文件
-    let yesterdayFile = app.vault.getAbstractFileByPath(`${folderPath}/${yesterdayFileName}.md`);
-    
-    // 如果没找到，尝试搜索
-    if (!yesterdayFile) {
-      console.log("未找到精确路径，尝试搜索包含日期的文件");
-      const files = app.vault.getMarkdownFiles();
-      const potentialFiles = files.filter(f => 
-        f.path.includes('/日记/') && 
-        f.basename.startsWith(yesterdayStr)
-      );
-      
-      if (potentialFiles.length > 0) {
-        console.log("找到潜在文件:", potentialFiles.map(f => f.path).join(", "));
-        const exactMatch = potentialFiles.find(f => f.basename === yesterdayFileName);
-        yesterdayFile = exactMatch || potentialFiles[0];
+    try {
+      if (a.file && (a.file.day || a.file.cday)) {
+        dayA = a.file.day || a.file.cday;
       }
-    }
-    
-    // 处理找到的文件
-    let unfinishedTasks = [];
-    if (yesterdayFile) {
-      console.log("找到昨日文件:", yesterdayFile.path);
-      const content = await app.vault.read(yesterdayFile);
-      const lines = content.split('\n');
-      let inProgrammingSection = false;
       
-      for (const line of lines) {
-        if (line.trim() === '## 编程项目') {
-          inProgrammingSection = true;
-          continue;
-        }
-        if (inProgrammingSection && line.trim().startsWith('## ')) {
-          inProgrammingSection = false;
-          break;
-        }
-        if (inProgrammingSection && line.trim().startsWith('- [ ]')) {
-          unfinishedTasks.push(line.trim());
-        }
+      if (b.file && (b.file.day || b.file.cday)) {
+        dayB = b.file.day || b.file.cday;
       }
-      
-      console.log("找到未完成编程任务:", unfinishedTasks.length);
-    } else {
-      console.log("未找到昨日文件");
+    } catch (e) {
+      console.log("排序时出错:", e);
     }
     
-    // 更新当前文件内容
-    let fileContent = await app.vault.read(currentFile);
-    let newContent;
-    
-    const placeholderRegex = /<!-- 正在加载昨日未完成项目... -->\n- \[ \] 加载中...\n\n/;
-    
-    if (unfinishedTasks.length > 0) {
-      const tasksText = unfinishedTasks.join('\n') + '\n- [ ] \n\n';
-      newContent = fileContent.replace(placeholderRegex, tasksText);
-    } else {
-      newContent = fileContent.replace(placeholderRegex, "- [ ] <!-- 昨日编程项目已完成 -->\n- [ ] \n\n");
-    }
-    
-    if (newContent !== fileContent) {
-      await app.vault.modify(currentFile, newContent);
-      console.log("已更新编程项目部分");
-    } else {
-      console.error("无法更新编程项目，可能是占位符不匹配");
-    }
-  } catch (error) {
-    console.error("加载昨日项目时出错:", error);
+    return dayA - dayB;
+  });
+} catch (e) {
+  console.log("处理任务时出错:", e);
+}
+
+// 去重逻辑
+const uniqueTasks = [];
+const taskTexts = new Set();
+tasks.forEach(task => {
+  if (!taskTexts.has(task.text)) {
+    uniqueTasks.push(task);
+    taskTexts.add(task.text);
   }
-}, 3500); // 延迟3.5秒执行，比工作事项稍晚一些
-_%>
+});
 
+// 打印筛选出的任务数量用于调试
+console.log("筛选出的任务数量:", uniqueTasks.length);
 
-## 习惯追踪
-- [ ] 早起（6:00前）
-- [ ] 冥想15分钟
-- [ ] 阅读30分钟
-- [ ] 写作500字
-- [ ] 喝水2000ml
-- [ ] 锻炼30分钟
-- [ ] 学习1小时
-- [ ] 早睡（23:00前）
-
-## 今日时间块
-- 06:00-07:00：晨间routine
-- 07:00-09:00：深度工作
-- 09:00-09:30：休息
-- 09:30-11:30：会议/沟通
-- 11:30-12:30：午餐/休息
-- 12:30-14:30：深度工作
-- 14:30-15:00：休息
-- 15:00-17:00：处理邮件/杂务
-- 17:00-18:30：运动
-- 18:30-19:30：晚餐
-- 19:30-21:30：学习/阅读
-- 21:30-22:30：放松/准备睡眠
-
+// 如果没有任务，显示提示信息
+if (uniqueTasks.length === 0) {
+  dv.paragraph("⚠️ 未找到符合条件的任务，请检查日记文件的frontmatter格式和week属性");
+  
+  // 显示找到的页面信息，帮助调试
+  dv.header(3, "调试信息");
+  dv.paragraph(`当前周记week值: ${dv.current().week || dv.current().file.frontmatter.week}`);
+  dv.paragraph(`找到符合week条件的页面数量: ${validPages.length}`);
+  
+  if (validPages.length > 0) {
+    dv.table(
+      ["文件名", "Week值", "任务数"],
+      validPages.map(p => [
+        p.file.name,
+        p.week || (p.file.frontmatter ? p.file.frontmatter.week : "无"),
+        p.file.tasks ? p.file.tasks.length : 0
+      ])
+    );
+  }
+} else {
+  dv.taskList(uniqueTasks);
+}
+```
 ## 今日运动
 
 - [ ] 跑步一小时
@@ -504,27 +553,8 @@ _%>
 - [ ] 阅读
 - [ ] 听力
 
-## 今日总结
-
-- [ ] 今天体重
-- [ ] 今天睡眠
-- [ ] 今天黄金
-- [ ] 今天学习
-- [ ] 今天阅读
-- [ ] 今天上网
-- [ ] 今天工作
-- [ ] 今天运动
-
-
 <!-- 以下内容仅在Obsidian中显示，在Hexo中会被忽略 -->
 <!-- 月记和周记查询 (Obsidian Dataview) -->
-```dataview
-table file.name as "周记与月记", file.cday as "创建时间"
-from "周记" or "月记"
-where year = this.file.cday.year
-where month = this.file.cday.month
-sort ascending
-```
 <!-- 在Hexo中显示的替代内容 -->
 <!-- 请访问我的周记和月记分类查看更多内容 -->
 

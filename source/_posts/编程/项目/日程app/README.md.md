@@ -1,35 +1,32 @@
 ---
-title: <% tp.date.now("YYYY-MM") %>-编程
-date: <% tp.date.now("YYYY-MM-DD HH:mm:ss") %>
-updated: <% tp.date.now("YYYY-MM-DD HH:mm:ss") %>
+title: readme-2025-05-编程-日程
+date: 2025-05-04 00:46:32
+updated: 2025-05-04 00:46:32
 author: Exarlos 艾克萨罗斯
 email: 452361419@qq.com
 description: 世界上没有低级的法术,只有低级的法师!
 keywords: 编程
-year: <% tp.date.now("YYYY") %>
-month: <% tp.date.now("MM") %>
-week: <% tp.date.now("WW") %>
-day: <% tp.date.now("DD") %>
-categories: 
+year: 2025
+month: 5
+week: 18
+day: 4
+categories:
   - 学习
-tags: 
+tags:
   - 编程
 isOriginal: true
 ---
 
-# <% tp.file.title %>
+# readme-2025-05-编程-日程
+
 
 ## 项目概述
-
-## 项目设计
 
 ## 项目进度
 
 ## 项目计划
 
 ## 项目问题
-
-## 项目bug修复
 
 ## 项目总结
 
@@ -49,19 +46,14 @@ where file.frontmatter.month = this.file.frontmatter.month
 sort file.name ascending
 ```
 
-
-
-
-
-
 ---
 > 本文由 Exarlos 创作，采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc-sa/4.0/) 进行许可。
 
 <!-- Obsidian 元数据 (不会影响 Hexo 解析) -->
 <!-- 
-创建时间: <% tp.file.creation_date("YYYY-MM-DD-dddd HH:mm") %> 
-year: <% tp.date.now("YYYY") %>
-month: <% tp.date.now("MM") %>
-week: <% tp.date.now("WW") %>
-day: <% tp.date.now("DD") %>
+创建时间: 2025-05-04-星期日 00:46 
+year: 2025
+month: 05
+week: 18
+day: 04
 -->
