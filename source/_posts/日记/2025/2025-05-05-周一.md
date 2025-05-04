@@ -11,7 +11,6 @@ categories:
   - 生活记录
 tags:
   - 日记
-cover: 
 password: 747937
 message: 请输入密码访问
 abstract: 这篇文章受到了保护。
