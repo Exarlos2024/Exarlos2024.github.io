@@ -33,7 +33,17 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install hexo-blog-encrypt --save  # 添加这一行来安装加密插件
+          npm install hexo-blog-encrypt --save  # 安装加密插件
+          npm install hexo-excerpt --save       # 安装摘要插件
+      
+      - name: Configure Hexo
+        run: |
+          # 添加摘要配置到 _config.yml
+          echo "excerpt:" >> _config.yml
+          echo "  depth: 200" >> _config.yml
+          echo "  excerpt_excludes: []" >> _config.yml
+          echo "  more_excludes: []" >> _config.yml
+          echo "  hideWholePostExcerpts: false" >> _config.yml
       
       - name: Build
         run: npm run build
